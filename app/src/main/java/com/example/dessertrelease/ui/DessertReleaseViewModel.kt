@@ -28,14 +28,16 @@ import kotlinx.coroutines.flow.StateFlow
  * View model of Dessert Release components
  */
 class DessertReleaseViewModel() : ViewModel() {
+    private val _uiState = MutableStateFlow(DessertReleaseUiState())
     // UI states access for various [DessertReleaseUiState]
-    val uiState: StateFlow<DessertReleaseUiState> = MutableStateFlow(DessertReleaseUiState())
+    val uiState: StateFlow<DessertReleaseUiState> = _uiState
 
     /*
      * [selectLayout] change the layout and icons accordingly and
      * save the selection in DataStore through [userPreferencesRepository]
      */
     fun selectLayout(isLinearLayout: Boolean) {
+        _uiState.value = DessertReleaseUiState(isLinearLayout)
     }
 
     companion object {
