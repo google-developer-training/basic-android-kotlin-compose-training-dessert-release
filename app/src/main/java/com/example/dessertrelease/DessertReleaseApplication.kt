@@ -21,8 +21,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.dessertrelease.data.AppContainer
-import com.example.dessertrelease.data.DefaultAppContainer
+import com.example.dessertrelease.data.UserPreferencesRepository
 
 private const val LAYOUT_PREFERENCE_NAME = "layout_preferences"
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
@@ -33,10 +32,10 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
  * Custom app entry point for manual dependency injection
  */
 class DessertReleaseApplication: Application() {
-    lateinit var container: AppContainer
+    lateinit var userPreferencesRepository: UserPreferencesRepository
 
     override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer(dataStore)
+        userPreferencesRepository = UserPreferencesRepository(dataStore)
     }
 }

@@ -30,15 +30,15 @@ import java.io.IOException
 /*
  * Concrete class implementation to access data store
  */
-class DataStorePreferencesRepository(
+class UserPreferencesRepository(
     private val dataStore: DataStore<Preferences>
-) : PreferencesRepository {
+) {
     private companion object {
         val IS_LINEAR_LAYOUT = booleanPreferencesKey("is_linear_layout")
         const val TAG = "UserPreferencesRepo"
     }
 
-    override val isLinearLayoutPreference: Flow<Boolean> = dataStore.data
+    val isLinearLayoutPreference: Flow<Boolean> = dataStore.data
         .catch {
             if (it is IOException) {
                 Log.e(TAG, "Error reading preferences.", it)
@@ -51,7 +51,7 @@ class DataStorePreferencesRepository(
             preferences[IS_LINEAR_LAYOUT] ?: true
         }
 
-    override suspend fun saveLayoutPreference(isLinearLayoutPreference: Boolean) {
+    suspend fun saveLayoutPreference(isLinearLayoutPreference: Boolean) {
         dataStore.edit { preferences ->
             preferences[IS_LINEAR_LAYOUT] = isLinearLayoutPreference
         }
