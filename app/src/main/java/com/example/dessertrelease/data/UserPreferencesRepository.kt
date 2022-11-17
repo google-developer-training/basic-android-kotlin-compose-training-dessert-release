@@ -38,7 +38,7 @@ class UserPreferencesRepository(
         const val TAG = "UserPreferencesRepo"
     }
 
-    val isLinearLayoutPreference: Flow<Boolean> = dataStore.data
+    val isLinearLayout: Flow<Boolean> = dataStore.data
         .catch {
             if (it is IOException) {
                 Log.e(TAG, "Error reading preferences.", it)
@@ -51,9 +51,9 @@ class UserPreferencesRepository(
             preferences[IS_LINEAR_LAYOUT] ?: true
         }
 
-    suspend fun saveLayoutPreference(isLinearLayoutPreference: Boolean) {
+    suspend fun saveLayoutPreference(isLinearLayout: Boolean) {
         dataStore.edit { preferences ->
-            preferences[IS_LINEAR_LAYOUT] = isLinearLayoutPreference
+            preferences[IS_LINEAR_LAYOUT] = isLinearLayout
         }
     }
 }

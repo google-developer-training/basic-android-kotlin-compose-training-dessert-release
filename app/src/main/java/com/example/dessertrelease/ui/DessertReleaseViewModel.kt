@@ -39,7 +39,7 @@ class DessertReleaseViewModel(
 ) : ViewModel() {
     // UI states access for various [DessertReleaseUiState]
     val uiState: StateFlow<DessertReleaseUiState> =
-        userPreferencesRepository.isLinearLayoutPreference.map { isLinearLayout ->
+        userPreferencesRepository.isLinearLayout.map { isLinearLayout ->
             DessertReleaseUiState(isLinearLayout)
         }.stateIn(
             scope = viewModelScope,
