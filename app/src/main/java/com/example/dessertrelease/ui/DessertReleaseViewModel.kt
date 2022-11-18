@@ -16,8 +16,6 @@
 
 package com.example.dessertrelease.ui
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -26,7 +24,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.dessertrelease.DessertReleaseApplication
 import com.example.dessertrelease.R
-import com.example.dessertrelease.data.PreferencesRepository
+import com.example.dessertrelease.data.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -37,11 +35,11 @@ import kotlinx.coroutines.launch
  * View model of Dessert Release components
  */
 class DessertReleaseViewModel(
-    private val userPreferencesRepository: PreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
     // UI states access for various [DessertReleaseUiState]
     val uiState: StateFlow<DessertReleaseUiState> =
-        userPreferencesRepository.isLinearLayoutPreference.map { isLinearLayout ->
+        userPreferencesRepository.isLinearLayout.map { isLinearLayout ->
             DessertReleaseUiState(isLinearLayout)
         }.stateIn(
             scope = viewModelScope,
@@ -66,8 +64,7 @@ class DessertReleaseViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as DessertReleaseApplication)
-                val userPreferencesRepository = application.container.preferencesRepository
-                DessertReleaseViewModel(userPreferencesRepository)
+                DessertReleaseViewModel(application.userPreferencesRepository)
             }
         }
     }
