@@ -28,4 +28,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Dessert Release"
-include ':app'
+include(":app")
