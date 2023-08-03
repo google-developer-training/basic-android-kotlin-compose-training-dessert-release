@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -67,6 +68,7 @@ fun DessertReleaseApp(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DessertReleaseScreen(
     uiState: DessertReleaseUiState,
@@ -96,25 +98,34 @@ private fun DessertReleaseScreen(
             )
         }
     ) { innerPadding ->
+        val modifier = Modifier
+            .padding(
+                top = dimensionResource(R.dimen.padding_medium),
+                start = dimensionResource(R.dimen.padding_medium),
+                end = dimensionResource(R.dimen.padding_medium),
+            )
         if (isLinearLayout) {
             DessertReleaseLinearLayout(
-                Modifier
-                    .padding(innerPadding)
-                    .fillMaxWidth())
+                modifier = modifier.fillMaxWidth(),
+                contentPadding = innerPadding
+            )
         } else {
-            DessertReleaseGridLayout(Modifier.padding(innerPadding))
+            DessertReleaseGridLayout(
+                modifier = modifier,
+                contentPadding = innerPadding,
+            )
         }
     }
 }
 
 @Composable
-fun DessertReleaseLinearLayout(modifier: Modifier = Modifier) {
+fun DessertReleaseLinearLayout(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
+) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(
-            vertical = dimensionResource(R.dimen.padding_medium),
-            horizontal = dimensionResource(R.dimen.padding_medium)
-        ),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
     ) {
         items(
@@ -140,11 +151,14 @@ fun DessertReleaseLinearLayout(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun DessertReleaseGridLayout(modifier: Modifier = Modifier) {
+fun DessertReleaseGridLayout(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
+    ) {
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(dimensionResource(R.dimen.padding_medium)),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium))
     ) {
