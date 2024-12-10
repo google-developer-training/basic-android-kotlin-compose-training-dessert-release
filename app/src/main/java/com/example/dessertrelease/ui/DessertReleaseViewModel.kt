@@ -26,9 +26,11 @@ import com.example.dessertrelease.R
 import com.example.dessertrelease.data.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /*
  * View model of Dessert Release components
@@ -46,7 +48,11 @@ class DessertReleaseViewModel(
             // 5 seconds stop delay is added to ensure it flows continuously
             // for cases such as configuration change
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = DessertReleaseUiState()
+            initialValue = runBlocking {
+                DessertReleaseUiState(
+                    isLinearLayout = userPreferencesRepository.isLinearLayout.first()
+                )
+            }
         )
 
     /*
